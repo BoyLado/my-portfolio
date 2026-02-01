@@ -1,236 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IV Homemade | Artisanal Ordering</title>
-<style>
-  :root {
-    --primary-green: #4a5d4e;
-    --paper-tan: #e8d5b7;
-    --deep-ink: #2c2c2c;
-    --accent-orange: #c87941;
-    --white-offset: #fdfaf5;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Architect | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #141414;
+            --accent: #E5FF00; /* Neon Cyber Yellow */
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --mono: 'JetBrains Mono', monospace;
+        }
 
-  body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background-color: var(--paper-tan);
-    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png'); /* Texture effect */
-    color: var(--deep-ink);
-    margin: 0;
-    padding: 20px;
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
-  .main-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: var(--white-offset);
-    padding: 40px;
-    border: 2px solid var(--deep-ink);
-    box-shadow: 12px 12px 0px var(--primary-green);
-    border-radius: 2px;
-  }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
 
-  header {
-    text-align: center;
-    border-bottom: 3px dashed var(--primary-green);
-    padding-bottom: 30px;
-    margin-bottom: 40px;
-  }
+        /* --- Background Glow --- */
+        .glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a00 0%, #0a0a0a 100%);
+            z-index: -1;
+        }
 
-  header h1 {
-    font-size: 2.5rem;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
+        /* --- Nav --- */
+        nav {
+            padding: 40px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  /* --- CARDS SECTION --- */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 50px;
-  }
+        .status {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-  .chip-card {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 20px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s;
-  }
+        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
 
-  .chip-card:hover {
-    transform: scale(1.02);
-    border-color: var(--accent-orange);
-  }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-  .chip-card img {
-    max-width: 150px;
-    margin-bottom: 15px;
-  }
+        /* --- Hero --- */
+        .hero {
+            height: 85vh;
+            padding: 0 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-  .price-tag {
-    background: var(--accent-orange);
-    color: white;
-    padding: 5px 15px;
-    font-weight: bold;
-    display: inline-block;
-    border-radius: 20px;
-    margin-bottom: 10px;
-  }
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -3px;
+            margin-bottom: 2rem;
+        }
 
-  /* --- FORM ELEMENTS --- */
-  .order-form {
-    background: #f4eee1;
-    padding: 30px;
-    border-left: 5px solid var(--primary-green);
-  }
+        .hero p {
+            font-family: var(--mono);
+            color: var(--text-dim);
+            max-width: 500px;
+            font-size: 0.9rem;
+        }
 
-  .order-form h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: var(--primary-green);
-  }
+        /* --- About --- */
+        .about-section {
+            padding: 100px 8%;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
+            align-items: center;
+        }
 
-  .form-group {
-    margin-bottom: 20px;
-  }
+        .img-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
 
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-  }
+        .img-container img {
+            width: 100%;
+            filter: grayscale(1) contrast(1.2);
+            border: 1px solid #333;
+            transition: 0.5s;
+        }
 
-  /* Textboxes */
-  input[type="text"], 
-  input[type="number"], 
-  select, 
-  textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid var(--primary-green);
-    background: transparent;
-    font-family: inherit;
-    box-sizing: border-box;
-    font-size: 1rem;
-  }
+        .img-container:after {
+            content: "";
+            position: absolute;
+            top: 20px; left: 20px;
+            width: 100%; height: 100%;
+            border: 1px solid var(--accent);
+            z-index: -1;
+        }
 
-  input:focus {
-    outline: none;
-    background: white;
-    box-shadow: 0 0 10px rgba(74, 93, 78, 0.1);
-  }
+        /* --- Projects --- */
+        .projects { padding: 100px 8%; }
+        
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 120px;
+            padding: 40px;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            transition: 0.4s;
+        }
 
-  /* Buttons */
-  .btn-submit {
-    background-color: var(--primary-green);
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    width: 100%;
-    transition: background 0.3s;
-  }
+        .project-item:hover { border-color: var(--accent); }
 
-  .btn-submit:hover {
-    background-color: var(--deep-ink);
-  }
+        .project-content h3 { font-size: 2rem; margin-bottom: 15px; color: var(--accent); }
+        .project-content p { color: var(--text-dim); margin-bottom: 30px; }
 
-  .btn-outline {
-    background: transparent;
-    border: 2px solid var(--primary-green);
-    color: var(--primary-green);
-    padding: 8px 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-weight: bold;
-  }
+        .tech-stack { font-family: var(--mono); font-size: 0.75rem; color: #555; }
 
-  .btn-outline:hover {
-    background: var(--primary-green);
-    color: white;
-  }
+        .project-img-box { background: #000; overflow: hidden; height: 300px; display: flex; align-items: center; justify-content: center;}
+        .project-img-box img { width: 110%; transition: 0.7s; opacity: 0.7; }
+        .project-item:hover .project-img-box img { transform: scale(1.05); opacity: 1; }
 
-  footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 0.8rem;
-    opacity: 0.6;
-  }
-</style>
+        /* --- Footer --- */
+        .footer {
+            padding: 150px 8% 50px;
+            text-align: center;
+        }
+
+        .footer h2 { font-size: clamp(2rem, 8vw, 5rem); margin-bottom: 40px; }
+
+        .mail-link {
+            font-family: var(--mono);
+            font-size: 1.2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            border: 1px solid #333;
+            padding: 20px 40px;
+            transition: 0.3s;
+        }
+
+        .mail-link:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        @media (max-width: 900px) {
+            .about-section, .project-item { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 4rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-  <header>
-    <h1>IV Homemade Cassava</h1>
-    <p>Hand-sliced • Slow-roasted • Pure Love</p>
-  </header>
+    <div class="glow"></div>
 
-  <section class="product-grid">
-    <div class="chip-card">
-      <div class="price-tag">₱50.00</div>
-      <img src="/mnt/data/17f72d77-00c3-45d2-8a3f-bd9a5184a403.png" alt="Original">
-      <h3>Original Sea Salt</h3>
-      <p>Walang halong kemikal. Purong kamoteng kahoy at asin.</p>
-      <button class="btn-outline">Add to Bag</button>
-    </div>
+    <nav>
+        <div style="font-weight: 700; font-family: var(--mono);">/SYS/DEV</div>
+        <div class="status"><div class="dot"></div> AVAILABLE FOR NEW WORK</div>
+    </nav>
 
-    <div class="chip-card">
-      <div class="price-tag">₱55.00</div>
-      <img src="/mnt/data/17f72d77-00c3-45d2-8a3f-bd9a5184a403.png" alt="Sour Cream">
-      <h3>Sour Cream & Herbs</h3>
-      <p>Premium seasoning na gawa sa tuyong dahon ng parsley at sibuyas.</p>
-      <button class="btn-outline">Add to Bag</button>
-    </div>
-  </section>
+    <section class="hero">
+        <h1 data-aos="fade-right">SHOPIFY<br>ARCHITECT.</h1>
+        <p data-aos="fade-up" data-aos-delay="300">
+            [Brief] Senior Developer focused on building technical foundations for high-growth e-commerce brands. Humble approach, extreme results.
+        </p>
+    </section>
 
-  <section class="order-form">
-    <h2>Mag-order Dito</h2>
-    <p>Pakisagutan ang detalye sa baba para sa inyong delivery.</p>
-    
-    <div class="form-group">
-      <label>Pangalan ng Customer</label>
-      <input type="text" placeholder="Hal: Juan Dela Cruz">
-    </div>
+    <section class="about-section">
+        <div class="img-container" data-aos="zoom-in">
+            <img src="me.webp" alt="Profile">
+        </div>
+        <div class="about-content" data-aos="fade-left">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Code. Design. Logic.</h2>
+            <p style="color: var(--text-dim); margin-bottom: 20px;">
+                I specialize in bridging the gap between complex business requirements and clean, performant Shopify code. My background in PHP and JS allows me to treat Liquid not just as a template engine, but as a tool for scalability.
+            </p>
+            <p style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent);">
+                > Based in Albay, Philippines // Remote Global
+            </p>
+        </div>
+    </section>
 
-    <div class="form-group" style="display: flex; gap: 20px;">
-      <div style="flex: 1;">
-        <label>Ilang Packs?</label>
-        <input type="number" min="1" value="1">
-      </div>
-      <div style="flex: 1;">
-        <label>Flavor</label>
-        <select>
-          <option>Original Sea Salt</option>
-          <option>Sour Cream & Herbs</option>
-          <option>Classic Cheese</option>
-        </select>
-      </div>
-    </div>
+    <section class="projects">
+        <div style="margin-bottom: 60px;">
+            <p style="font-family: var(--mono); color: var(--accent);">// SELECTED_WORKS</p>
+        </div>
 
-    <div class="form-group">
-      <label>Address / Landmark</label>
-      <textarea rows="3" placeholder="Saan namin ihahatid ang ngiti?"></textarea>
-    </div>
+        <div class="project-item" data-aos="fade-up">
+            <div class="project-content">
+                <h3>Dawn Engine v2</h3>
+                <p>A complete technical overhaul of the Dawn theme. Removed 12+ third-party apps by native coding features directly into the Liquid engine. Result: 98/100 Mobile Speed Score.</p>
+                <div class="tech-stack">LIQUID / JSON / VANILLA_JS</div>
+            </div>
+            <div class="project-img-box">
+                <img src="https://via.placeholder.com/600x400" alt="Project">
+            </div>
+        </div>
 
-    <button class="btn-submit">I-send ang Order</button>
-  </section>
+        <div class="project-item" data-aos="fade-up">
+            <div class="project-content">
+                <h3>Custom Tailwind Build</h3>
+                <p>Architected a headless-feel store within Shopify’s Liquid environment using Tailwind CSS. Fully custom UI/UX designed for a high-fashion boutique.</p>
+                <div class="tech-stack">TAILWIND_CSS / SHOPIFY_CLI / GSAP</div>
+            </div>
+            <div class="project-img-box">
+                <img src="https://via.placeholder.com/600x400" alt="Project">
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    &copy; 2026 IV Homemade - Freshly Packed in Marikina
-  </footer>
-</div>
+    <section class="footer">
+        <h2 data-aos="fade-up">LET'S CONNECT.</h2>
+        <a href="mailto:hello@yourname.dev" class="mail-link" data-aos="fade-up" data-aos-delay="200">INITIATE_CONTACT</a>
+        <div style="margin-top: 100px; color: #333; font-family: var(--mono); font-size: 0.7rem;">
+            &copy; 2026 INTERNAL_VERSION_1.0.4
+        </div>
+    </section>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
 </body>
 </html>
