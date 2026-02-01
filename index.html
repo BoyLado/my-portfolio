@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IV Homemade | Artisanal Ordering</title>
+<style>
+  :root {
+    --primary-green: #4a5d4e;
+    --paper-tan: #e8d5b7;
+    --deep-ink: #2c2c2c;
+    --accent-orange: #c87941;
+    --white-offset: #fdfaf5;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--paper-tan);
+    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png'); /* Texture effect */
+    color: var(--deep-ink);
+    margin: 0;
+    padding: 20px;
+  }
+
+  .main-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--white-offset);
+    padding: 40px;
+    border: 2px solid var(--deep-ink);
+    box-shadow: 12px 12px 0px var(--primary-green);
+    border-radius: 2px;
+  }
+
+  header {
+    text-align: center;
+    border-bottom: 3px dashed var(--primary-green);
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* --- CARDS SECTION --- */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+  }
+
+  .chip-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s;
+  }
+
+  .chip-card:hover {
+    transform: scale(1.02);
+    border-color: var(--accent-orange);
+  }
+
+  .chip-card img {
+    max-width: 150px;
+    margin-bottom: 15px;
+  }
+
+  .price-tag {
+    background: var(--accent-orange);
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    display: inline-block;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* --- FORM ELEMENTS --- */
+  .order-form {
+    background: #f4eee1;
+    padding: 30px;
+    border-left: 5px solid var(--primary-green);
+  }
+
+  .order-form h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: var(--primary-green);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Textboxes */
+  input[type="text"], 
+  input[type="number"], 
+  select, 
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-green);
+    background: transparent;
+    font-family: inherit;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  input:focus {
+    outline: none;
+    background: white;
+    box-shadow: 0 0 10px rgba(74, 93, 78, 0.1);
+  }
+
+  /* Buttons */
+  .btn-submit {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    transition: background 0.3s;
+  }
+
+  .btn-submit:hover {
+    background-color: var(--deep-ink);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .btn-outline:hover {
+    background: var(--primary-green);
+    color: white;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="main-wrapper">
+  <header>
+    <h1>IV Homemade Cassava</h1>
+    <p>Hand-sliced • Slow-roasted • Pure Love</p>
+  </header>
+
+  <section class="product-grid">
+    <div class="chip-card">
+      <div class="price-tag">₱50.00</div>
+      <img src="/mnt/data/17f72d77-00c3-45d2-8a3f-bd9a5184a403.png" alt="Original">
+      <h3>Original Sea Salt</h3>
+      <p>Walang halong kemikal. Purong kamoteng kahoy at asin.</p>
+      <button class="btn-outline">Add to Bag</button>
+    </div>
+
+    <div class="chip-card">
+      <div class="price-tag">₱55.00</div>
+      <img src="/mnt/data/17f72d77-00c3-45d2-8a3f-bd9a5184a403.png" alt="Sour Cream">
+      <h3>Sour Cream & Herbs</h3>
+      <p>Premium seasoning na gawa sa tuyong dahon ng parsley at sibuyas.</p>
+      <button class="btn-outline">Add to Bag</button>
+    </div>
+  </section>
+
+  <section class="order-form">
+    <h2>Mag-order Dito</h2>
+    <p>Pakisagutan ang detalye sa baba para sa inyong delivery.</p>
+    
+    <div class="form-group">
+      <label>Pangalan ng Customer</label>
+      <input type="text" placeholder="Hal: Juan Dela Cruz">
+    </div>
+
+    <div class="form-group" style="display: flex; gap: 20px;">
+      <div style="flex: 1;">
+        <label>Ilang Packs?</label>
+        <input type="number" min="1" value="1">
+      </div>
+      <div style="flex: 1;">
+        <label>Flavor</label>
+        <select>
+          <option>Original Sea Salt</option>
+          <option>Sour Cream & Herbs</option>
+          <option>Classic Cheese</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Address / Landmark</label>
+      <textarea rows="3" placeholder="Saan namin ihahatid ang ngiti?"></textarea>
+    </div>
+
+    <button class="btn-submit">I-send ang Order</button>
+  </section>
+
+  <footer>
+    &copy; 2026 IV Homemade - Freshly Packed in Marikina
+  </footer>
+</div>
+
+</body>
+</html>
