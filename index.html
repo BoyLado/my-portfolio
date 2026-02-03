@@ -1,340 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopify Developer | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anton Jay | Shopify Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: #121212;
+      --accent: #E5FF00;
+      --text-main: #ffffff;
+      --text-dim: #999999;
+      --mono: 'JetBrains Mono', monospace;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Selection & Scrollbar */
+    ::selection { background: var(--accent); color: #000; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Improved Glow - Moving subtly */
+    .glow {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(229, 255, 0, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(229, 255, 0, 0.04) 0%, transparent 45%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Navigation - Glassmorphism */
+    nav {
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed; /* Fixed is better for UX on long portfolios */
+      top: 0; width: 100%;
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+    }
+
+    .logo { font-weight: 600; font-family: var(--mono); letter-spacing: -1px; font-size: 1.1rem; cursor: pointer; }
+
+    .status {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border: 1px solid rgba(229, 255, 0, 0.2);
+      border-radius: 100px;
+      background: rgba(229, 255, 0, 0.03);
+    }
+
+    .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent); animation: pulse 2.5s infinite; }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.4); } 100% { opacity: 1; transform: scale(1); } }
+
+    /* Hero Section - Better Typography Scale */
+    .hero {
+      min-height: 100vh;
+      padding: 100px 8% 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero span { 
+      font-family: var(--mono); 
+      color: var(--accent); 
+      font-size: clamp(0.75rem, 2vw, 0.9rem); 
+      margin-bottom: 1rem; 
+      display: block; 
+      letter-spacing: 3px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8.5vw, 5.8rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .hero p {
+      color: var(--text-dim);
+      max-width: 650px;
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+    }
+
+    /* Profile & About - Responsiveness */
+    .about-section {
+      padding: 120px 8%;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .img-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      padding: 15px;
+      margin: 0 auto;
+    }
+
+    .img-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border: 1px solid var(--accent);
+      border-radius: 24px;
+      opacity: 0.2;
+      transition: var(--transition);
+      z-index: 0;
+    }
+
+    .img-inner-wrap {
+      position: relative;
+      z-index: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      aspect-ratio: 1/1;
+    }
+
+    .img-container img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(1);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    }
+
+    .img-container:hover::before { transform: rotate(3deg) scale(1.05); opacity: 0.6; }
+    .img-container:hover img { filter: grayscale(0); transform: scale(1.08); }
+
+    .about-content h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 25px; letter-spacing: -1px; }
+    .about-content p { color: var(--text-dim); margin-bottom: 20px; font-size: 1.1rem; }
+
+    /* Projects - Card refinement */
+    .projects { padding: 120px 8%; background: rgba(255,255,255,0.01); }
+    .section-label { font-family: var(--mono); color: var(--accent); font-size: 0.7rem; margin-bottom: 50px; display: block; letter-spacing: 4px; }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 100px;
+      padding: 50px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-item:hover { border-color: var(--accent); transform: translateY(-10px); }
+
+    .project-content h3 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 20px; font-weight: 600; }
+    .project-content p { color: var(--text-dim); margin-bottom: 35px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--mono); font-size: 0.65rem; }
+    .tech-tags span { 
+      color: var(--accent); 
+      background: rgba(229, 255, 0, 0.05); 
+      padding: 6px 14px; 
+      border-radius: 100px; 
+      border: 1px solid rgba(229, 255, 0, 0.1);
+      transition: 0.3s;
+    }
+    /*.project-item:hover .tech-tags span { background: var(--accent); color: #000; }*/
+    .tech-tags span:hover{
+      animation: wiggle 0.3s linear infinite;
+      scale: 1.1; /* Makes it pop out while wiggling */
+      transition: scale 0.2s ease;
+    }
+
+    /*.project-img-box {
+      border-radius: 20px;
+      overflow: hidden;
+      height: 350px;
+      border: 1px solid var(--border-color);
+    }*/
+    .project-img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.8s ease; }
+    /*.project-item:hover .project-img-box img { opacity: 1; transform: scale(1.05); }*/
+
+    /* Container for the carousel */
+    .image-carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .carousel-slides {
+      width: 100%;
+      height: 100%;
+      /*position: relative;*/
+    }
+
+    /* Base state for all slides */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0; /* Hidden by default */
+      visibility: hidden;
+      transition: opacity 0.6s ease-in-out, transform 0.8s ease;
+      z-index: 1;
+    }
+
+    /* State for the active slide */
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: var(--accent);
+      padding: 15px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .carousel-nav:hover { background: var(--accent); color: #000; }
+    .prev { left: 0; border-radius: 0 8px 8px 0; }
+    .next { right: 0; border-radius: 8px 0 0 8px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      width: 25px;
+      border-radius: 10px;
+    }
+
+    /* Footer & CTA */
+    .footer { padding: 150px 8% 60px; text-align: center; border-top: 1px solid var(--border-color); }
+    .footer h2 { font-size: clamp(2.2rem, 6vw, 4.5rem); margin-bottom: 40px; font-weight: 600; letter-spacing: -3px; }
     
-    <style>
-        :root {
-            --bg: #0a0a0a;
-            --card-bg: #121212;
-            --accent: #E5FF00; 
-            --text-main: #ffffff;
-            --text-dim: #999999;
-            --mono: 'JetBrains Mono', monospace;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
+    .mail-link {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: #000;
+      background: var(--accent);
+      text-decoration: none;
+      padding: 22px 50px;
+      border-radius: 100px;
+      transition: var(--transition);
+      display: inline-block;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        /* Smooth Scroll */
-        html { scroll-behavior: smooth; }
+    .mail-link:hover { transform: scale(1.05) translateY(-5px); background: #fff; box-shadow: 0 20px 40px rgba(229, 255, 0, 0.2); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    .sub-footer {
+      margin-top: 120px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-color);
+      color: #555;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* --- Mobile Adjustments --- */
+    @media (max-width: 1024px) {
+      .project-item { padding: 35px; gap: 40px; }
+    }
 
-        /* Ambient Glow Background */
-        .glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(229, 255, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(229, 255, 0, 0.03) 0%, transparent 40%);
-            z-index: -1;
-        }
-
-        /* Navigation */
-        nav {
-            padding: 30px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
-        .logo { font-weight: 600; font-family: var(--mono); letter-spacing: -1px; font-size: 1.2rem; }
-
-        .status {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
-            border: 1px solid rgba(229, 255, 0, 0.2);
-            border-radius: 100px;
-        }
-
-        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
-
-        /* Hero Section */
-        .hero {
-            min-height: 85vh;
-            padding: 0 8%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero span { font-family: var(--mono); color: var(--accent); font-size: 0.9rem; margin-bottom: 1.5rem; display: block; opacity: 0.9; }
-
-        .hero h1 {
-            font-size: clamp(2.8rem, 8vw, 5.5rem);
-            font-weight: 600;
-            line-height: 1.1;
-            letter-spacing: -3px;
-            margin-bottom: 2rem;
-        }
-
-        .hero p {
-            color: var(--text-dim);
-            max-width: 600px;
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
-        /* --- Profile Picture & About Section --- */
-        .about-section {
-            padding: 120px 8%;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 80px;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* The "Very Good" Border for Profile Pic */
-        .img-container { 
-            position: relative; 
-            width: fit-content;
-            padding: 15px; /* Space for the double border effect */
-        }
-
-        .img-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border: 1px solid var(--accent);
-            border-radius: 20px;
-            opacity: 0.3;
-            transition: 0.5s ease;
-        }
-
-        .img-inner-wrap {
-            position: relative;
-            z-index: 1;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: var(--card-bg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .img-container img {
-            width: 100%;
-            max-width: 320px;
-            display: block;
-            filter: grayscale(0.5);
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* Hover Effect for Profile Pic */
-        .img-container:hover::before {
-            transform: scale(1.05) rotate(3deg);
-            opacity: 0.8;
-            border-color: var(--accent);
-        }
-
-        .img-container:hover img {
-            filter: grayscale(0);
-            transform: scale(1.05);
-        }
-
-        .about-content h2 { font-size: 2.4rem; margin-bottom: 25px; font-weight: 600; letter-spacing: -1px; }
-        .about-content p { color: var(--text-dim); margin-bottom: 20px; font-size: 1.1rem; }
-
-        /* --- Projects --- */
-        .projects { padding: 100px 8%; background: rgba(255,255,255,0.02); }
-        .section-label { font-family: var(--mono); color: var(--accent); font-size: 0.75rem; margin-bottom: 40px; display: block; letter-spacing: 2px; }
-
-        .project-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            margin-bottom: 100px;
-            padding: 50px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            transition: 0.4s ease;
-        }
-
-        .project-item:hover {
-            border-color: rgba(229, 255, 0, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .project-content h3 { font-size: 2rem; margin-bottom: 20px; font-weight: 600; }
-        .project-content p { color: var(--text-dim); margin-bottom: 30px; }
-
-        .tech-stack { 
-            font-family: var(--mono); 
-            font-size: 0.75rem; 
-            color: var(--accent); 
-            background: rgba(229, 255, 0, 0.1);
-            padding: 6px 12px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .project-img-box { 
-            border-radius: 16px; 
-            overflow: hidden; 
-            height: 320px; 
-            border: 1px solid var(--border-color);
-        }
-        
-        .project-img-box img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            opacity: 0.7; 
-            transition: 0.6s ease; 
-        }
-
-        .project-item:hover .project-img-box img { opacity: 1; transform: scale(1.1); }
-
-        /* --- Footer --- */
-        .footer { padding: 120px 8% 40px; text-align: center; border-top: 1px solid var(--border-color); }
-        .footer h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 40px; font-weight: 600; letter-spacing: -2px; }
-        
-        .mail-link {
-            font-family: var(--mono);
-            font-size: 1.1rem;
-            color: #000;
-            background: var(--accent);
-            text-decoration: none;
-            padding: 22px 45px;
-            border-radius: 50px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .mail-link:hover { transform: scale(1.1); background: #fff; box-shadow: 0 10px 30px rgba(229, 255, 0, 0.3); }
-
-        .sub-footer {
-            margin-top: 100px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border-color);
-            color: #555;
-            font-family: var(--mono);
-            font-size: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 968px) {
-            .about-section, .project-item { grid-template-columns: 1fr; gap: 40px; padding: 30px; }
-            .hero h1 { font-size: 3.5rem; }
-            .img-container { margin: 0 auto; }
-            nav { padding: 20px 5%; }
-        }
-    </style>
+    @media (max-width: 850px) {
+      nav { padding: 15px 5%; }
+      .about-section, .project-item { grid-template-columns: 1fr; text-align: left; }
+      .project-img-box { order: -1; height: 280px; }
+      .hero h1 { font-size: 3.5rem; letter-spacing: -2px; }
+      .about-section { gap: 50px; padding: 80px 5%; }
+      .projects { padding: 80px 5%; }
+      .project-item { padding: 25px; border-radius: 24px; margin-bottom: 50px; }
+      .sub-footer { flex-direction: column; text-align: center; align-items: center; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="glow"></div>
+  <div class="glow" id="glow"></div>
 
-    <nav>
-        <div class="logo">> NOTZ DEV</div>
-        <div class="status"><div class="dot"></div> OPEN FOR COLLABORATION</div>
-    </nav>
+  <nav>
+    <div class="logo">> NOTZ DEV</div>
+    <div class="status">
+      <div class="dot"></div> 
+      <span>OPEN FOR COLLABORATION</span>
+    </div>
+  </nav>
 
-    <section class="hero">
-        <span data-aos="fade-down">// DIGITAL CRAFTMANSHIP FOR E-COMMERCE</span>
-        <h1 data-aos="fade-left" data-aos-delay="100">I help Shopify owners <br>build reliable online shops.</h1>
-        <p data-aos="fade-up" data-aos-delay="200">
-            I’m a developer who values clean code and honest communication. <br>I focus on making your store work smoothly so you can focus on your business.
-        </p>
-    </section>
+  <section class="hero">
+    <span data-aos="fade-right" data-aos-delay="100">// DIGITAL CRAFTMANSHIP FOR E-COMMERCE</span>
+    <h1 data-aos="fade-up" data-aos-delay="300">I help Shopify owners <br>build reliable online shops.</h1>
+    <p data-aos="fade-up" data-aos-delay="500">
+      I’m a developer who values clean code and honest communication. <br>I focus on making your store work smoothly so you can focus on your business.
+    </p>
+  </section>
 
-    <section class="about-section">
-        <div class="img-container" data-aos="zoom-out" data-aos-duration="1200">
-            <div class="img-inner-wrap">
-                <img src="me.webp" alt="Your Profile Picture">
-            </div>
+  <section class="about-section">
+    <div class="img-container" data-aos="zoom-out-up" data-aos-duration="1000">
+      <div class="img-inner-wrap">
+        <img src="me.webp" alt="Your Profile Picture">
+      </div>
+    </div>
+    <div class="about-content">
+      <div style="border-bottom: 1px solid #222; padding-bottom: 30px; margin-bottom: 40px;">
+       <span data-aos="fade-left" data-aos-delay="200" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 5px;">
+         // ANTON JAY L. HERMO
+       </span>
+       <span data-aos="fade-left" data-aos-delay="300" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); display: block;">
+         // BASED IN ALBAY, PHILIPPINES
+       </span>
+      </div>
+      
+      <h2 data-aos="fade-up">Focused on performance.</h2>
+      <p data-aos="fade-up">
+        My philosophy is simple: <strong>speed is a feature</strong>. I don't just build layouts; I optimize the Liquid ecosystem to ensure your store stays fast, clean, and manageable.
+      </p>
+      <p data-aos="fade-up" data-aos-delay="100">
+        I listen to what your store needs and I find the most practical way to build it. I don't believe in over-complicating things with unnecessary apps or bloated code.
+      </p>
+    </div>
+  </section>
+
+  <section class="projects">
+    <span class="section-label" data-aos="fade-right">// SELECTED WORKS</span>
+
+    <div class="project-item" data-aos="fade-up">
+      <div class="project-content">
+        <h3>Dawn Theme Optimization</h3>
+        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
+        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
+        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
+        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
+        <div class="tech-tags">
+            <span>SHOPIFY LIQUID</span>
+            <span>JAVASCRIPT</span>
+            <span>PERFORMANCE</span>
         </div>
-        <div class="about-content" >
-            <div style="border-bottom: 1px solid #343434; padding-top: 30px; padding-bottom: 30px;">
-              <span data-aos="fade-left" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); margin-top: 30px;">
-                  // ANTON JAY L. HERMO
-              </span>
-              <br>
-              <span data-aos="fade-left" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); margin-top: 30px;">
-                  // BASED IN ALBAY, PHILIPPINES
-              </span>
-            </div>
-            <br>
-            <h2 data-aos="fade-up">Focused on performance.</h2>
-            <p data-aos="fade-up">
-                My philosophy is simple: <strong>speed is a feature</strong>. I don't just build layouts; I optimize the Liquid ecosystem to ensure your store stays fast, clean, and manageable.
-            </p >
-            <p data-aos="fade-up">
-                I listen to what your store needs and I find the most practical way to build it. I don't believe in over-complicating things with unnecessary apps or bloated code.
-            </p>
+      </div>
+      <div class="project-img-box">
+        <div class="image-carousel" id="carousel-1">
+          <div class="carousel-slides">
+            <img src="desktop-view.webp" class="slide active" alt="View 1">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="slide" alt="View 2">
+          </div>
+
+          <button class="carousel-nav prev" onclick="changeSlide(-1, 'carousel-1')">&#10094;</button>
+          <button class="carousel-nav next" onclick="changeSlide(1, 'carousel-1')">&#10095;</button>
+
+          <div class="carousel-dots">
+            <span class="dot active" onclick="setSlide(0, 'carousel-1')"></span>
+            <span class="dot" onclick="setSlide(1, 'carousel-1')"></span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <section class="projects">
-        <span class="section-label">// PROJECTS I'VE WORKED ON</span>
-
-        <div class="project-item" data-aos="fade-up">
-            <div class="project-content">
-                <h3>Dawn Theme Optimization</h3>
-                <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
-                <div class="tech-stack">SHOPIFY LIQUID / JAVASCRIPT / PERFORMANCE</div>
-            </div>
-            <div class="project-img-box">
-                <img src="https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=800" alt="Project Thumbnail">
-            </div>
+    <div class="project-item" data-aos="fade-up">
+      <div class="project-content">
+        <h3>Tailwind x Shopify CLI</h3>
+        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
+        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
+        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
+        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
+        <div class="tech-tags">
+            <span>SHOPIFY LIQUID</span>
+            <span>JAVASCRIPT</span>
+            <span>PERFORMANCE</span>
         </div>
+      </div>
+      <div class="project-img-box">
+        <div class="image-carousel" id="carousel-2">
+          <div class="carousel-slides">
+            <img src="https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=800" class="slide active" alt="View 1">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="slide" alt="View 2">
+          </div>
 
-        <div class="project-item" data-aos="fade-up">
-            <div class="project-content">
-                <h3>Tailwind x Shopify CLI</h3>
-                <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
-                <div class="tech-stack">TAILWIND / SHOPIFY CLI / UI DESIGN</div>
-            </div>
-            <div class="project-img-box">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Project Thumbnail">
-            </div>
+          <button class="carousel-nav prev" onclick="changeSlide(-1, 'carousel-2')">&#10094;</button>
+          <button class="carousel-nav next" onclick="changeSlide(1, 'carousel-2')">&#10095;</button>
+
+          <div class="carousel-dots">
+            <span class="dot active" onclick="setSlide(0, 'carousel-2')"></span>
+            <span class="dot" onclick="setSlide(1, 'carousel-2')"></span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="footer">
-        <h2 data-aos="fade-down">Let’s talk about your project.</h2>
-        <p style="color: var(--text-dim); margin-bottom: 100px;">I'm currently available for small tasks or long-term store support.</p>
-        <a href="mailto:hermo.antonjay.personal@gmail.com" class="mail-link" data-aos="fade-up" data-aos-delay="200">LET'S CONNECT</a>
-        
-        <div class="sub-footer">
-            <div>&copy; 2026 // ALBAY, PH</div>
-            <div>STAY GROUNDED // BUILD BETTER</div>
-        </div>
-    </section>
+  <section class="footer">
+    <h2 data-aos="fade-up">Let’s talk about your project.</h2>
+    <p style="color: var(--text-dim); margin-bottom: 60px; max-width: 500px; margin: 0 auto 60px;" data-aos="fade-up">I'm currently available for small tasks or long-term store support.</p>
+    <a href="mailto:hermo.antonjay.personal@gmail.com" class="mail-link" data-aos="zoom-in" data-aos-delay="200">LET'S CONNECT</a>
+    
+    <div class="sub-footer">
+      <div>&copy; 2026 // ALBAY, PH</div>
+      <div>STAY GROUNDED // BUILD BETTER</div>
+    </div>
+  </section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ 
-            duration: 800, 
-            once: true,
-            easing: 'ease-out-quad'
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS with custom settings
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out-quart',
+      anchorPlacement: 'top-bottom',
+    });
+
+    // Subtle parallax for the glow background
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 20;
+      const y = (e.clientY / window.innerHeight) * 20;
+      document.getElementById('glow').style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Change slide by increment (next/prev)
+    function changeSlide(direction, carouselId) {
+        const container = document.getElementById(carouselId);
+        const slides = container.querySelectorAll('.slide');
+        let currentIndex = 0;
+
+        // Find current active index
+        slides.forEach((slide, index) => {
+            if (slide.classList.contains('active')) {
+                currentIndex = index;
+            }
         });
-    </script>
+
+        let newIndex = currentIndex + direction;
+
+        // Loop logic
+        if (newIndex >= slides.length) newIndex = 0;
+        if (newIndex < 0) newIndex = slides.length - 1;
+
+        updateUI(newIndex, carouselId);
+    }
+
+    // Set slide to specific index (dots)
+    function setSlide(index, carouselId) {
+        updateUI(index, carouselId);
+    }
+
+    // Global UI Update function
+    function updateUI(targetIndex, carouselId) {
+        const container = document.getElementById(carouselId);
+        const slides = container.querySelectorAll('.slide');
+        const dots = container.querySelectorAll('.dot');
+
+        // Remove active classes
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+
+        // Add active classes to target
+        slides[targetIndex].classList.add('active');
+        if(dots[targetIndex]) dots[targetIndex].classList.add('active');
+    }
+
+    // Optional: Auto-play function
+    setInterval(() => changeSlide(1, 'carousel-1'), 4000);
+    setInterval(() => changeSlide(1, 'carousel-2'), 4000);
+  </script>
 </body>
 </html>
