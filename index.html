@@ -113,6 +113,7 @@
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
+            margin-bottom: 80px;
         }
         .hero-label { 
             color: var(--forest); 
@@ -138,7 +139,7 @@
             color: var(--text-muted); 
             max-width: 620px; 
             font-size: clamp(0.95rem, 2vw, 1.1rem); 
-            margin-bottom: 48px; 
+            margin-bottom: 40px; 
             transform: translateY(20px); 
             opacity: 0; 
             line-height: 1.8; 
@@ -374,6 +375,9 @@
         }
 
         @media (max-width: 480px) {
+            .hero { 
+                margin-bottom: 20px;
+            }
             .footer-bottom { flex-direction: column; text-align: center; }
         }
     </style>
@@ -395,7 +399,7 @@
                 <a href="#approach">// STRATEGY</a>
                 <a href="#skills">// STACK</a>
                 <a href="#about">// PROFILE</a>
-                <a href="mailto:hermo.antonjay.personal@gmail.com" class="btn-secondary" style="color: var(--forest)">CONNECT_INIT</a>
+                <a href="mailto:hermo.antonjay.personal@gmail.com" class="btn-secondary" style="color: var(--forest)">LETS_CONNECT</a>
             </div>
             <div class="menu-toggle" id="mobile-trigger"><span></span><span></span><span></span></div>
         </div>
@@ -407,14 +411,14 @@
         <a href="#approach" onclick="toggleMenu()">STRATEGY</a>
         <a href="#skills" onclick="toggleMenu()">STACK</a>
         <a href="#about" onclick="toggleMenu()">PROFILE</a>
-        <a href="mailto:hermo.antonjay.personal@gmail.com" style="color: var(--forest); font-weight: 700;">CONNECT_INIT</a>
+        <a href="mailto:hermo.antonjay.personal@gmail.com" style="color: var(--forest); font-weight: 700;">LETS_CONNECT</a>
     </div>
 
     <main class="container">
         <section class="hero" id="hero">
             <span class="hero-label">Technical Shopify Partner</span>
-            <h1>Engineering resilient <br><span>commerce systems.</span></h1>
-            <p class="hero-subtext">I help high-growth merchants optimize their Total Cost of Ownership by replacing heavy third-party apps with clean, native Shopify architecture. Performance is a feature, not an afterthought.</p>
+            <h1>ENGINEERING RESILIENT <br><span>COMMERCE SYSTEMS.</span></h1>
+            <p class="hero-subtext">I help merchants scale by replacing heavy app dependencies with clean, native Shopify architecture. Focus on stability, speed, and long-term maintainability.</p>
             <div class="hero-actions">
                 <a href="#work" class="btn-primary">VIEW ARCHITECTURE</a>
                 <a href="#approach" class="btn-secondary">My Process</a>
@@ -618,7 +622,7 @@
                 
                 <div class="cta-actions">
                     <div class="cta-buttons">
-                        <a href="mailto:hello@antonhermo.com" class="btn-primary">LET'S START A PROJECT</a>
+                        <a href="mailto:hello@antonhermo.com" class="btn-primary">START A PROJECT</a>
                     </div>
                     
                     <div class="cta-links">
