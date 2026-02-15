@@ -361,12 +361,20 @@
             .menu-toggle { display: flex; }
             .hero { padding: 120px 0 60px; min-height: auto; }
             .hero h1 { font-size: 2.1rem; }
+            .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
+            .hero-actions .btn-primary { width: 100%; padding: 14px; }
+            .hero-actions .btn-secondary { width: 100%; justify-content: center; padding: 14px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.02); }
             .project-grid { grid-template-columns: 1fr; }
             .approach-item { grid-template-columns: 1fr; padding: 32px 0; gap: 12px; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .footer-brand { grid-column: span 2; }
             .about-grid { grid-template-columns: 1fr; }
             .cta-buttons { flex-direction: column; width: 100%; }
+            .cta-links a{ display: flex;}
+        }
+
+        @media (max-width: 480px) {
+            .footer-bottom { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -415,8 +423,8 @@
 
         <section id="work">
             <div class="section-header scroll-reveal">
-                <h2>Featured Case Studies</h2>
-                <p>Selected Implementations // 2025-2026</p>
+                <h2>Featured Architecture</h2>
+                <p>Selected Case Studies // 2025-2026</p>
             </div>
             <div class="project-grid">
                 <article class="project-card scroll-reveal">
@@ -467,8 +475,8 @@
             <div class="services-grid">
                 <div class="service-card scroll-reveal">
                     <span class="service-num">01_</span>
-                    <h3>Modular Liquid Architecture</h3>
-                    <p>Building flexible, theme-agnostic sections that give your marketing team full control without touching code.</p>
+                    <h3>Custom Sections & Blocks</h3>
+                    <p>Building reusable and flexible Liquid sections that empower your team to manage content without touching code.</p>
                 </div>
                 <div class="service-card scroll-reveal">
                     <span class="service-num">02_</span>
@@ -477,8 +485,8 @@
                 </div>
                 <div class="service-card scroll-reveal">
                     <span class="service-num">03_</span>
-                    <h3>Conversion-Focused UX</h3>
-                    <p>Micro-interactions and optimized mobile checkouts designed to reduce friction and increase AOV.</p>
+                    <h3>UI/UX Improvements</h3>
+                    <p>Refining the customer journey with high-performance animations and mobile-first interface.</p>
                 </div>
                 <div class="service-card scroll-reveal">
                     <span class="service-num">04_</span>
@@ -492,8 +500,8 @@
                 </div>
                 <div class="service-card scroll-reveal">
                     <span class="service-num">06_</span>
-                    <h3>Systems Maintenance</h3>
-                    <p>Reliable troubleshooting and proactive updates to ensure your technical foundation stays unbreakable.</p>
+                    <h3>Bug Fixes & Enhancements</h3>
+                    <p>Technical troubleshooting and continuous store improvements to keep things running smoothly.</p>
                 </div>
             </div>
         </section>
@@ -508,8 +516,8 @@
                 <div class="approach-item scroll-reveal">
                     <h3>Protocol_01</h3>
                     <div class="approach-content">
-                        <h4>Performance-First Engineering</h4>
-                        <p>Every line of code is audited for speed. I leverage Shopify's CDN and optimized asset loading to ensure sub-2-second load times.</p>
+                        <h4>Performance First</h4>
+                        <p>Lightweight and optimized code for speed. Every millisecond counts in commerce, so I prioritize Core Web Vitals from day one.</p>
                     </div>
                 </div>
                 <div class="approach-item scroll-reveal">
@@ -529,8 +537,15 @@
                 <div class="approach-item scroll-reveal">
                     <h3>Protocol_04</h3>
                     <div class="approach-content">
-                        <h4>Touch-Optimized UX</h4>
-                        <p>With 70%+ of traffic on mobile, I design for the thumb. Every interaction is tactile, fast, and responsive.</p>
+                        <h4>Mobile-First Implementation</h4>
+                        <p>Premium mobile shopping experience is the standard. I ensure every interaction is tactile and optimized for touch-screen users.</p>
+                    </div>
+                </div>
+                <div class="approach-item scroll-reveal">
+                    <h3>Principle_05</h3>
+                    <div class="approach-content">
+                        <h4>Structured Workflow</h4>
+                        <p>From Git-based version control to clear documentation, my process ensures transparency and precision in every deployment.</p>
                     </div>
                 </div>
             </div>
@@ -539,33 +554,36 @@
         <section id="skills">
             <div class="section-header scroll-reveal">
                 <h2>Technical Arsenal</h2>
-                <p>The Stack //</p>
+                <p>Skills & Tech Stack //</p>
             </div>
             <div class="skills-grid">
                 <div class="skill-category scroll-reveal">
-                    <h3>Shopify Ecosystem</h3>
+                    <h3>Shopify</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">Liquid Engine</span>
+                        <span class="skill-tag">Liquid Templating</span>
                         <span class="skill-tag">Shopify CLI</span>
-                        <span class="skill-tag">Metaobjects</span>
-                        <span class="skill-tag">API Integration</span>
+                        <span class="skill-tag">Metafields & Metaobjects</span>
                     </div>
                 </div>
                 <div class="skill-category scroll-reveal">
-                    <h3>Frontend Logic</h3>
+                    <h3>Frontend</h3>
                     <div class="skill-tags">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
                         <span class="skill-tag">Modern JS (ES6+)</span>
                         <span class="skill-tag">Tailwind CSS</span>
-                        <span class="skill-tag">AJAX / Fetch</span>
-                        <span class="skill-tag">Animation (GSAP)</span>
+                        <span class="skill-tag">JQuery</span>
+                        <span class="skill-tag">AJAX / fetch</span>
                     </div>
                 </div>
                 <div class="skill-category scroll-reveal">
-                    <h3>Operations</h3>
+                    <h3>Tools</h3>
                     <div class="skill-tags">
+                        <span class="skill-tag">Node JS</span>
                         <span class="skill-tag">Git Version Control</span>
-                        <span class="skill-tag">CI/CD Workflows</span>
-                        <span class="skill-tag">Performance Auditing</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">Google Lighthouse</span>
+                        <span class="skill-tag">Chrome DevTools</span>
                     </div>
                 </div>
             </div>
@@ -582,25 +600,25 @@
                 </div>
                 <div class="about-text">
                     <h3 class="about-name">Anton Jay L. Hermo</h3>
-                    <span class="about-role">Shopify Systems Developer // PH</span>
+                    <span class="about-role">Shopify Developer // Albay, PH</span>
                     
-                    <p>I specialize in building Shopify environments that are as durable as they are fast. Based in Albay, Philippines, I provide high-level technical support to international brands looking for strategic development partner.</p>
+                    <p>I build reliable, well-structured Shopify stores with a strong focus on long-term stability and performance. I prioritize clean architecture and practical solutions that support sustainable growth.</p>
 
-                    <p>I don't just "fix" themes; I treat every store as an interconnected ecosystem. By focusing on clean architecture and native functionality, I ensure your business isn't held hostage by brittle apps or bloated code.</p>
+                    <p>I approach each project as a system of connected parts that need to work seamlessly behind the scenes. I aim to ensure everything runs smoothly and efficiently.</p>
 
-                    <p>My goal is to translate your complex business requirements into simple, intuitive user experiences—backed by code that speaks for itself.</p>
+                    <p>Through clean, thoughtful code and careful attention to detail, I help turn complex requirements into simple, intuitive experiences—so your store operates with confidence and your results speak for themselves.</p>
                 </div>
             </div>
         </section>
 
         <section id="contact" class="cta-section scroll-reveal">
             <div class="container">
-                <h2>Ready to Optimize?</h2>
-                <p class="cta-content">If you're looking for a developer who values clean implementation and long-term scalability over quick fixes, let's talk.</p>
+                <h2>Let’s Build Something That Converts</h2>
+                <p class="cta-content">If you're looking for a Shopify developer who focuses on clean implementation and practical solutions, I’d be happy to collaborate.</p>
                 
                 <div class="cta-actions">
                     <div class="cta-buttons">
-                        <a href="mailto:hello@antonhermo.com" class="btn-primary">START_PROJECT_v1.0</a>
+                        <a href="mailto:hello@antonhermo.com" class="btn-primary">LET'S START A PROJECT</a>
                     </div>
                     
                     <div class="cta-links">
@@ -617,7 +635,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <h3><a href="#" class="logo">NOTZ<span>.DEV</span></a></h3>
-                    <p>Building high-performance Shopify foundations that eliminate technical friction and empower sustainable growth. Quality over complexity, every time.</p>
+                    <p>I believe every successful Shopify store starts with a strong, well-structured foundation. My goal isn’t to create the most complex solution, but the most effective one—building clean, efficient systems that remove technical friction and keep your business running smoothly.</p>
                 </div>
                 <div class="footer-column">
                     <h4>Site Navigation</h4>
