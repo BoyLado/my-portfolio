@@ -1,532 +1,783 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anton Jay | Shopify Developer Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --card-bg: #121212;
-      --accent: #E5FF00;
-      --text-main: #ffffff;
-      --text-dim: #999999;
-      --mono: 'JetBrains Mono', monospace;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Selection & Scrollbar */
-    ::selection { background: var(--accent); color: #000; }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    html { scroll-behavior: smooth; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Improved Glow - Moving subtly */
-    .glow {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background:
-        radial-gradient(circle at 15% 25%, rgba(229, 255, 0, 0.06) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(229, 255, 0, 0.04) 0%, transparent 45%);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Navigation - Glassmorphism */
-    nav {
-      padding: 20px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed; /* Fixed is better for UX on long portfolios */
-      top: 0; width: 100%;
-      background: rgba(10, 10, 10, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 1000;
-    }
-
-    .logo { font-weight: 600; font-family: var(--mono); letter-spacing: -1px; font-size: 1.1rem; cursor: pointer; }
-
-    .status {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
-      border: 1px solid rgba(229, 255, 0, 0.2);
-      border-radius: 100px;
-      background: rgba(229, 255, 0, 0.03);
-    }
-
-    .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent); animation: pulse 2.5s infinite; }
-    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.4); } 100% { opacity: 1; transform: scale(1); } }
-
-    /* Hero Section - Better Typography Scale */
-    .hero {
-      min-height: 100vh;
-      padding: 100px 8% 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero span { 
-      font-family: var(--mono); 
-      color: var(--accent); 
-      font-size: clamp(0.75rem, 2vw, 0.9rem); 
-      margin-bottom: 1rem; 
-      display: block; 
-      letter-spacing: 3px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 8.5vw, 5.8rem);
-      font-weight: 600;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 2rem;
-    }
-
-    .hero p {
-      color: var(--text-dim);
-      max-width: 650px;
-      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-      font-weight: 300;
-    }
-
-    /* Profile & About - Responsiveness */
-    .about-section {
-      padding: 120px 8%;
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 80px;
-      align-items: center;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .img-container {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      padding: 15px;
-      margin: 0 auto;
-    }
-
-    .img-container::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      border: 1px solid var(--accent);
-      border-radius: 24px;
-      opacity: 0.2;
-      transition: var(--transition);
-      z-index: 0;
-    }
-
-    .img-inner-wrap {
-      position: relative;
-      z-index: 1;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      background: var(--card-bg);
-      aspect-ratio: 1/1;
-    }
-
-    .img-container img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(1);
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
-    }
-
-    .img-container:hover::before { transform: rotate(3deg) scale(1.05); opacity: 0.6; }
-    .img-container:hover img { filter: grayscale(0); transform: scale(1.08); }
-
-    .about-content h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 25px; letter-spacing: -1px; }
-    .about-content p { color: var(--text-dim); margin-bottom: 20px; font-size: 1.1rem; }
-
-    /* Projects - Card refinement */
-    .projects { padding: 120px 8%; background: rgba(255,255,255,0.01); }
-    .section-label { font-family: var(--mono); color: var(--accent); font-size: 0.7rem; margin-bottom: 50px; display: block; letter-spacing: 4px; }
-
-    .project-item {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-bottom: 100px;
-      padding: 50px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 32px;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-item:hover { border-color: var(--accent); transform: translateY(-10px); }
-
-    .project-content h3 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 20px; font-weight: 600; }
-    .project-content p { color: var(--text-dim); margin-bottom: 35px; }
-
-    .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--mono); font-size: 0.65rem; }
-    .tech-tags span { 
-      color: var(--accent); 
-      background: rgba(229, 255, 0, 0.05); 
-      padding: 6px 14px; 
-      border-radius: 100px; 
-      border: 1px solid rgba(229, 255, 0, 0.1);
-      transition: 0.3s;
-    }
-    /*.project-item:hover .tech-tags span { background: var(--accent); color: #000; }*/
-    .tech-tags span:hover{
-      animation: wiggle 0.3s linear infinite;
-      scale: 1.1; /* Makes it pop out while wiggling */
-      transition: scale 0.2s ease;
-    }
-
-    /*.project-img-box {
-      border-radius: 20px;
-      overflow: hidden;
-      height: 350px;
-      border: 1px solid var(--border-color);
-    }*/
-    .project-img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.8s ease; }
-    /*.project-item:hover .project-img-box img { opacity: 1; transform: scale(1.05); }*/
-
-    /* Container for the carousel */
-    .image-carousel {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .carousel-slides {
-      width: 100%;
-      height: 100%;
-      /*position: relative;*/
-    }
-
-    /* Base state for all slides */
-    .slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0; /* Hidden by default */
-      visibility: hidden;
-      transition: opacity 0.6s ease-in-out, transform 0.8s ease;
-      z-index: 1;
-    }
-
-    /* State for the active slide */
-    .slide.active {
-      opacity: 1;
-      visibility: visible;
-      z-index: 2;
-    }
-
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      background: rgba(0,0,0,0.6);
-      border: none;
-      color: var(--accent);
-      padding: 15px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-
-    .carousel-nav:hover { background: var(--accent); color: #000; }
-    .prev { left: 0; border-radius: 0 8px 8px 0; }
-    .next { right: 0; border-radius: 8px 0 0 8px; }
-
-    .carousel-dots {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 10;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      background: rgba(255,255,255,0.4);
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background: var(--accent);
-      width: 25px;
-      border-radius: 10px;
-    }
-
-    /* Footer & CTA */
-    .footer { padding: 150px 8% 60px; text-align: center; border-top: 1px solid var(--border-color); }
-    .footer h2 { font-size: clamp(2.2rem, 6vw, 4.5rem); margin-bottom: 40px; font-weight: 600; letter-spacing: -3px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anton Jay L. Hermo | Shopify Systems Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    .mail-link {
-      font-family: var(--mono);
-      font-size: 1rem;
-      color: #000;
-      background: var(--accent);
-      text-decoration: none;
-      padding: 22px 50px;
-      border-radius: 100px;
-      transition: var(--transition);
-      display: inline-block;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --forest: #2d5a27;
+            --forest-light: #3e7a36;
+            --text-main: #e0e0e0;
+            --text-muted: #858585;
+            --border: rgba(255, 255, 255, 0.06);
+            --mono: 'JetBrains Mono', monospace;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.6s var(--ease);
+            --nav-height: 80px;
+        }
 
-    .mail-link:hover { transform: scale(1.05) translateY(-5px); background: #fff; box-shadow: 0 20px 40px rgba(229, 255, 0, 0.2); }
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--forest); }
 
-    .sub-footer {
-      margin-top: 120px;
-      padding-top: 40px;
-      border-top: 1px solid var(--border-color);
-      color: #555;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        html { scroll-behavior: smooth; }
+        section { scroll-margin-top: calc(var(--nav-height) + 20px); position: relative; z-index: 2; }
 
-    /* --- Mobile Adjustments --- */
-    @media (max-width: 1024px) {
-      .project-item { padding: 35px; gap: 40px; }
-    }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--mono);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            position: relative;
+        }
 
-    @media (max-width: 850px) {
-      nav { padding: 15px 5%; }
-      .about-section, .project-item { grid-template-columns: 1fr; text-align: left; }
-      .project-img-box { order: -1; height: 280px; }
-      .hero h1 { font-size: 3.5rem; letter-spacing: -2px; }
-      .about-section { gap: 50px; padding: 80px 5%; }
-      .projects { padding: 80px 5%; }
-      .project-item { padding: 25px; border-radius: 24px; margin-bottom: 50px; }
-      .sub-footer { flex-direction: column; text-align: center; align-items: center; }
-    }
-  </style>
+        #canvas-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; overflow: hidden; pointer-events: none;
+            background: radial-gradient(circle at center, #111111 0%, #0a0a0a 100%);
+        }
+        
+        canvas { display: block; }
+
+        .bg-grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.03; pointer-events: none; z-index: 1;
+        }
+
+        .bg-vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(10,10,10,0.8) 100%);
+            z-index: 1; pointer-events: none;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: var(--nav-height);
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000; transition: var(--transition);
+            display: flex; align-items: center;
+        }
+        nav.scrolled { height: 60px; background: rgba(10, 10, 10, 0.95); }
+        .nav-wrapper { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 0.9rem; letter-spacing: -0.02em; text-decoration: none; color: var(--text-main); }
+        .logo span { color: var(--forest); }
+        .nav-links { display: flex; align-items: center; gap: 30px; }
+        .nav-links a { 
+            text-decoration: none; color: var(--text-muted); font-size: 0.7rem; 
+            letter-spacing: 0.05em; transition: var(--transition); position: relative;
+            display: inline-flex; align-items: center;
+        }
+        .nav-links a:not(.btn-secondary)::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--forest); transition: var(--transition);
+        }
+        .nav-links a:not(.btn-secondary):hover { color: var(--text-main); }
+        .nav-links a:not(.btn-secondary):hover::after { width: 100%; }
+
+        /* --- Mobile Burger --- */
+        .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; padding: 10px; z-index: 1001; }
+        .menu-toggle span { width: 22px; height: 1.5px; background: var(--text-main); transition: var(--transition); }
+        .menu-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: var(--bg); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 32px;
+            transition: all 0.8s cubic-bezier(0.85, 0, 0.15, 1); z-index: 999;
+        }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu a { font-size: 1.5rem; text-decoration: none; color: var(--text-main); font-weight: 300; letter-spacing: 0.1em; }
+
+        /* --- HERO --- */
+        .hero { 
+            padding: 160px 0 80px; 
+            min-height: 85vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+        }
+        .hero-label { 
+            color: var(--forest); 
+            font-size: 0.65rem; 
+            font-weight: 700; 
+            letter-spacing: 0.3em; 
+            text-transform: uppercase; 
+            margin-bottom: 24px; 
+            display: block; 
+            transform: translateY(20px); 
+            opacity: 0; 
+        }
+        .hero h1 { 
+            font-size: clamp(2.2rem, 7vw, 3.8rem); 
+            font-weight: 400; 
+            line-height: 1.1; 
+            margin-bottom: 32px; 
+            transform: translateY(20px); 
+            opacity: 0; 
+        }
+        .hero h1 span { color: var(--text-muted); font-weight: 300; }
+        .hero-subtext { 
+            color: var(--text-muted); 
+            max-width: 620px; 
+            font-size: clamp(0.95rem, 2vw, 1.1rem); 
+            margin-bottom: 48px; 
+            transform: translateY(20px); 
+            opacity: 0; 
+            line-height: 1.8; 
+        }
+        .hero-actions { 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            gap: 20px; 
+            transform: translateY(20px); 
+            opacity: 0; 
+        }
+
+        /* --- SECTION HEADERS --- */
+        .section-header { margin-bottom: clamp(40px, 8vw, 60px); border-left: 2px solid var(--forest); padding-left: 24px; opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .section-header.reveal { opacity: 1; transform: translateY(0); }
+        .section-header h2 { font-size: clamp(1.3rem, 4vw, 1.6rem); font-weight: 400; margin-bottom: 8px; }
+        .section-header p { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* --- PROJECTS --- */
+        .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 100px; }
+        
+        .project-card { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            border-radius: 4px; 
+            transition: var(--transition); 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            overflow: hidden; 
+            opacity: 0; 
+            transform: translateY(40px); 
+        }
+        
+        .project-card.reveal { opacity: 1; transform: translateY(0); }
+
+        .project-image-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            background: #1a1a1a;
+        }
+
+        .project-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.5);
+            transition: transform 1.2s var(--ease), filter 0.8s var(--ease);
+        }
+
+        .project-details {
+            padding: clamp(24px, 4vw, 32px);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .project-card:hover { 
+            border-color: var(--forest); 
+            transform: translateY(-8px); 
+            background: #151515; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .project-card:hover .project-image-wrapper img {
+            transform: scale(1.05);
+            filter: grayscale(0);
+        }
+
+        .project-tag { color: var(--forest); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+        .project-title { font-size: 1.2rem; margin-bottom: 12px; font-weight: 500; }
+        .project-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px; line-height: 1.6; }
+        
+        .project-meta { 
+            margin-top: auto; 
+            display: flex; 
+            gap: 20px; 
+            border-top: 1px solid var(--border); 
+            padding-top: 20px; 
+        }
+        .meta-item span { display: block; font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .meta-item strong { font-size: 0.8rem; color: var(--text-main); font-weight: 500; }
+
+        .project-link {
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--forest);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+        }
+
+        .project-link span { position: relative; }
+        .project-link span::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+            background: var(--forest); transition: var(--transition);
+        }
+        .project-link:hover span::after { width: 100%; }
+        .project-link::after { content: '↗'; margin-left: 6px; font-size: 0.9rem; }
+
+        /* --- CAPABILITIES --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 100px; }
+        .service-card { background: rgba(17, 17, 17, 0.7); backdrop-filter: blur(5px); border: 1px solid var(--border); padding: 32px; border-radius: 4px; transition: var(--transition); opacity: 0; transform: translateY(30px); display: flex; flex-direction: column; gap: 16px; }
+        .service-card.reveal { opacity: 1; transform: translateY(0); }
+        .service-card:hover { border-color: rgba(45, 90, 39, 0.4); background: rgba(255, 255, 255, 0.05); }
+        .service-num { font-size: 0.65rem; color: var(--forest); font-weight: 700; }
+        .service-card h3 { font-size: 1.05rem; font-weight: 500; }
+        .service-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* --- DEVELOPMENT APPROACH --- */
+        .approach-intro { max-width: 750px; font-size: 1.1rem; margin-bottom: 48px; opacity: 0; transform: translateY(20px); line-height: 1.8; }
+        .approach-intro.reveal { opacity: 1; transform: translateY(0); }
+        .approach-list { border-top: 1px solid var(--border); margin-bottom: 100px; }
+        .approach-item { display: grid; grid-template-columns: 1fr 2fr; padding: 40px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateX(-20px); transition: var(--transition); gap: 24px; }
+        .approach-item.reveal { opacity: 1; transform: translateX(0); }
+        .approach-item:hover { background: linear-gradient(90deg, rgba(45, 90, 39, 0.05) 0%, transparent 100%); }
+        .approach-item h3 { font-size: 0.7rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.1em; padding-top: 6px; }
+        .approach-content h4 { font-size: 1.2rem; font-weight: 500; margin-bottom: 12px; }
+        .approach-content p { color: var(--text-muted); font-size: 0.95rem; max-width: 600px; line-height: 1.7; }
+
+        /* --- SKILLS & TECH STACK --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 100px; }
+        .skill-category { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .skill-category.reveal { opacity: 1; transform: translateY(0); }
+        .skill-category h3 { font-size: 0.7rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag { font-size: 0.75rem; padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); transition: var(--transition); }
+        .skill-tag:hover { border-color: var(--forest); color: #fff; background: rgba(45, 90, 39, 0.1); transform: translateY(-3px); }
+
+        /* --- ABOUT ME SECTION --- */
+        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(32px, 8vw, 60px); align-items: center; margin-bottom: 100px; }
+        
+        .about-image { 
+            position: relative; 
+            border-radius: 2px; 
+            overflow: hidden; 
+            aspect-ratio: 4/5; 
+            border: 1px solid var(--border); 
+            background: #000;
+        }
+        
+        .about-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(1) contrast(1.1); 
+            transition: all 0.6s var(--ease);
+            opacity: 0.8;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--forest);
+            box-shadow: 0 0 20px var(--forest);
+            opacity: 0.7;
+            animation: scan 4s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .about-image:hover img { 
+            filter: grayscale(0) contrast(1); 
+            opacity: 1; 
+            transform: scale(1.02);
+        }
+        .about-image:hover { border-color: var(--forest); }
+
+        .about-name { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 8px; font-weight: 500; letter-spacing: -0.02em; }
+        .about-role { color: var(--forest); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 30px; font-weight: 700; }
+        
+        .about-text p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 24px; line-height: 1.8; }
+
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        /* --- FINAL CTA SECTION --- */
+        .cta-section { padding: clamp(60px, 10vw, 100px) 24px; background: rgba(17,17,17,0.7); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 4px; text-align: center; margin-bottom: 100px; }
+        .cta-section h2 { font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 400; margin-bottom: 20px; line-height: 1.2; }
+        .cta-content { max-width: 600px; margin: 0 auto 40px; color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
+        .cta-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px; }
+        .cta-links { display: flex; flex-wrap: wrap; gap: clamp(15px, 4vw, 30px); border-top: 1px solid var(--border); padding-top: 30px; width: 100%; justify-content: center; }
+        .cta-link-item { text-decoration: none; color: var(--text-muted); font-size: 0.75rem; transition: var(--transition); }
+        .cta-link-item span { color: var(--forest); margin-right: 8px; }
+
+        /* --- BUTTONS --- */
+        .btn-primary { background: var(--forest); color: #fff; padding: 16px 32px; border-radius: 4px; text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: var(--transition); border: 1px solid var(--forest); display: inline-flex; text-align: center; justify-content: center; }
+        .btn-primary:hover { background: transparent; color: var(--forest); transform: translateY(-2px); }
+        .btn-secondary { color: var(--text-main); text-decoration: none; font-size: 0.8rem; display: inline-flex; align-items: center; transition: var(--transition); }
+        .btn-secondary::before { content: '->'; margin-right: 8px; color: var(--forest); font-weight: 700; }
+
+        /* --- FOOTER --- */
+        footer { padding: 80px 0 40px; border-top: 1px solid var(--border); margin-top: 80px; position: relative; z-index: 2; background: var(--bg); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        .footer-brand h3 { font-size: 1.1rem; margin-bottom: 20px; }
+        .footer-brand p { color: var(--text-muted); font-size: 0.8rem; max-width: 320px; }
+        .footer-column h4 { font-size: 0.65rem; color: var(--forest); text-transform: uppercase; margin-bottom: 24px; letter-spacing: 0.15em; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul li a { text-decoration: none; color: var(--text-muted); font-size: 0.8rem; transition: var(--transition); }
+        .footer-column ul li a:hover { color: var(--text-main); padding-left: 5px; }
+        .footer-bottom { padding-top: 40px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: center; color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.05em; }
+
+        .faded { opacity: 1 !important; transform: translateY(0) !important; transition: all 1s var(--ease); }
+
+        @media (max-width: 768px) {
+            :root { --nav-height: 70px; }
+            .nav-links { display: none; }
+            .menu-toggle { display: flex; }
+            .hero { padding: 120px 0 60px; min-height: auto; }
+            .hero h1 { font-size: 2.1rem; }
+            .project-grid { grid-template-columns: 1fr; }
+            .approach-item { grid-template-columns: 1fr; padding: 32px 0; gap: 12px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: span 2; }
+            .about-grid { grid-template-columns: 1fr; }
+            .cta-buttons { flex-direction: column; width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="glow" id="glow"></div>
-
-  <nav>
-    <div class="logo">> NOTZ DEV</div>
-    <div class="status">
-      <div class="dot"></div> 
-      <span>OPEN FOR COLLABORATION</span>
+    <div id="canvas-container">
+        <canvas id="bg-canvas"></canvas>
     </div>
-  </nav>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
 
-  <section class="hero">
-    <span data-aos="fade-right" data-aos-delay="100">// DIGITAL CRAFTMANSHIP FOR E-COMMERCE</span>
-    <h1 data-aos="fade-up" data-aos-delay="300">I help Shopify owners <br>build reliable online shops.</h1>
-    <p data-aos="fade-up" data-aos-delay="500">
-      I’m a developer who values clean code and honest communication. <br>I focus on making your store work smoothly so you can focus on your business.
-    </p>
-  </section>
-
-  <section class="about-section">
-    <div class="img-container" data-aos="zoom-out-up" data-aos-duration="1000">
-      <div class="img-inner-wrap">
-        <img src="me.webp" alt="Your Profile Picture">
-      </div>
-    </div>
-    <div class="about-content">
-      <div style="border-bottom: 1px solid #222; padding-bottom: 30px; margin-bottom: 40px;">
-       <span data-aos="fade-left" data-aos-delay="200" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 5px;">
-         // ANTON JAY L. HERMO
-       </span>
-       <span data-aos="fade-left" data-aos-delay="300" style="font-family: var(--mono); font-size: 0.8rem; color: var(--accent); display: block;">
-         // BASED IN ALBAY, PHILIPPINES
-       </span>
-      </div>
-      
-      <h2 data-aos="fade-up">Focused on performance.</h2>
-      <p data-aos="fade-up">
-        My philosophy is simple: <strong>speed is a feature</strong>. I don't just build layouts; I optimize the Liquid ecosystem to ensure your store stays fast, clean, and manageable.
-      </p>
-      <p data-aos="fade-up" data-aos-delay="100">
-        I listen to what your store needs and I find the most practical way to build it. I don't believe in over-complicating things with unnecessary apps or bloated code.
-      </p>
-    </div>
-  </section>
-
-  <section class="projects">
-    <span class="section-label" data-aos="fade-right">// SELECTED WORKS</span>
-
-    <div class="project-item" data-aos="fade-up">
-      <div class="project-content">
-        <h3>Dawn Theme Optimization</h3>
-        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
-        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
-        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
-        <p>Reduced 12+ apps to native Liquid functionality. Improved LCP scores from 4.2s to 1.1s while adding custom "Quick Buy" features.</p>
-        <div class="tech-tags">
-            <span>SHOPIFY LIQUID</span>
-            <span>JAVASCRIPT</span>
-            <span>PERFORMANCE</span>
+    <nav id="main-nav">
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">NOTZ<span>.DEV</span></a>
+            <div class="nav-links">
+                <a href="#work">// PROJECTS</a>
+                <a href="#services">// EXPERTISE</a>
+                <a href="#approach">// STRATEGY</a>
+                <a href="#skills">// STACK</a>
+                <a href="#about">// PROFILE</a>
+                <a href="mailto:hermo.antonjay.personal@gmail.com" class="btn-secondary" style="color: var(--forest)">CONNECT_INIT</a>
+            </div>
+            <div class="menu-toggle" id="mobile-trigger"><span></span><span></span><span></span></div>
         </div>
-      </div>
-      <div class="project-img-box">
-        <div class="image-carousel" id="carousel-1">
-          <div class="carousel-slides">
-            <img src="desktop-view.webp" class="slide active" alt="View 1">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="slide" alt="View 2">
-          </div>
+    </nav>
 
-          <button class="carousel-nav prev" onclick="changeSlide(-1, 'carousel-1')">&#10094;</button>
-          <button class="carousel-nav next" onclick="changeSlide(1, 'carousel-1')">&#10095;</button>
-
-          <div class="carousel-dots">
-            <span class="dot active" onclick="setSlide(0, 'carousel-1')"></span>
-            <span class="dot" onclick="setSlide(1, 'carousel-1')"></span>
-          </div>
-        </div>
-      </div>
+    <div class="mobile-menu" id="mobile-overlay">
+        <a href="#work" onclick="toggleMenu()">PROJECTS</a>
+        <a href="#services" onclick="toggleMenu()">EXPERTISE</a>
+        <a href="#approach" onclick="toggleMenu()">STRATEGY</a>
+        <a href="#skills" onclick="toggleMenu()">STACK</a>
+        <a href="#about" onclick="toggleMenu()">PROFILE</a>
+        <a href="mailto:hermo.antonjay.personal@gmail.com" style="color: var(--forest); font-weight: 700;">CONNECT_INIT</a>
     </div>
 
-    <div class="project-item" data-aos="fade-up">
-      <div class="project-content">
-        <h3>Tailwind x Shopify CLI</h3>
-        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
-        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
-        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
-        <p>A developer-first approach to theme building. Using Tailwind CSS within the Shopify CLI environment for rapid, scalable design implementation.</p>
-        <div class="tech-tags">
-            <span>SHOPIFY LIQUID</span>
-            <span>JAVASCRIPT</span>
-            <span>PERFORMANCE</span>
+    <main class="container">
+        <section class="hero" id="hero">
+            <span class="hero-label">Technical Shopify Partner</span>
+            <h1>Engineering resilient <br><span>commerce systems.</span></h1>
+            <p class="hero-subtext">I help high-growth merchants optimize their Total Cost of Ownership by replacing heavy third-party apps with clean, native Shopify architecture. Performance is a feature, not an afterthought.</p>
+            <div class="hero-actions">
+                <a href="#work" class="btn-primary">VIEW ARCHITECTURE</a>
+                <a href="#approach" class="btn-secondary">My Process</a>
+            </div>
+        </section>
+
+        <section id="work">
+            <div class="section-header scroll-reveal">
+                <h2>Featured Case Studies</h2>
+                <p>Selected Implementations // 2025-2026</p>
+            </div>
+            <div class="project-grid">
+                <article class="project-card scroll-reveal">
+                    <div class="project-image-wrapper">
+                        <img src="desktop-view.webp" alt="The Minimalist Collective Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNDUwIiB2aWV3Qm94PSIwIDAgODAwIDQ1MCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI0NTAiIGZpbGw9IiMyMjIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzU1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBST0pFQ1RfUFJFVklFVzwvdGV4dD48L3N2Zz4='">
+                    </div>
+                    <div class="project-details">
+                        <span class="project-tag">Migration & Performance</span>
+                        <h3 class="project-title">The Minimalist Collective</h3>
+                        <p class="project-desc">Complete overhaul of a legacy Page Builder setup into a 100% Native Liquid architecture. Successfully eliminated 12+ recurring app subscriptions.</p>
+
+                        <a href="#" target="_blank" class="project-link"><span>VIEW_LIVE_STORE</span></a>
+                        <code class="project-desc">Access Code: [1234]</code>
+
+                        <div class="project-meta">
+                            <div class="meta-item"><span>Performance</span><strong>98/100</strong></div>
+                            <div class="meta-item"><span>Monthly Savings</span><strong>High</strong></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card scroll-reveal">
+                    <div class="project-image-wrapper">
+                        <img src="desktop-view.webp" alt="Apex Apparel Global Preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNDUwIiB2aWV3Qm94PSIwIDAgODAwIDQ1MCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI0NTAiIGZpbGw9IiMyMjIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzU1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBST0pFQ1RfUFJFVklFVzwvdGV4dD48L3N2Zz4='">
+                    </div>
+                    <div class="project-details">
+                        <span class="project-tag">Logic & UX Systems</span>
+                        <h3 class="project-title">Apex Apparel Global</h3>
+                        <p class="project-desc">Developed a bespoke product configuration engine using Shopify Metaobjects and AJAX. Scalable across 400+ SKUs with zero lag.</p>
+
+                        <a href="#" target="_blank" class="project-link"><span>VIEW_LIVE_STORE</span></a> 
+                        <code class="project-desc">Access Code: [1234]</code>
+
+                        <div class="project-meta">
+                            <div class="meta-item"><span>Avg. Load Time</span><strong>1.2s</strong></div>
+                            <div class="meta-item"><span>Conversion</span><strong>+18%</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="section-header scroll-reveal">
+                <h2>Capabilities</h2>
+                <p>Tech Solutions for Merchants //</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">01_</span>
+                    <h3>Modular Liquid Architecture</h3>
+                    <p>Building flexible, theme-agnostic sections that give your marketing team full control without touching code.</p>
+                </div>
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">02_</span>
+                    <h3>Tech Debt Elimination</h3>
+                    <p>Replacing high-latency apps with native frontend logic to slash load times and monthly overhead costs.</p>
+                </div>
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">03_</span>
+                    <h3>Conversion-Focused UX</h3>
+                    <p>Micro-interactions and optimized mobile checkouts designed to reduce friction and increase AOV.</p>
+                </div>
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">04_</span>
+                    <h3>Core Web Vitals Audit</h3>
+                    <p>Deep-layer optimization targeting LCP and CLS to ensure your store ranks higher and retains users.</p>
+                </div>
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">05_</span>
+                    <h3>Custom Landing Systems</h3>
+                    <p>Engineered for paid traffic. High-performance, custom-coded pages that convert better than generic templates.</p>
+                </div>
+                <div class="service-card scroll-reveal">
+                    <span class="service-num">06_</span>
+                    <h3>Systems Maintenance</h3>
+                    <p>Reliable troubleshooting and proactive updates to ensure your technical foundation stays unbreakable.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="approach">
+            <div class="section-header scroll-reveal">
+                <h2>Development Philosophy</h2>
+                <p>Scalability Over Shortcuts //</p>
+            </div>
+            <p class="approach-intro scroll-reveal">I prioritize "Clean Implementation." A store that looks good but is difficult to maintain is a liability. I build systems that are developer-friendly and merchant-empowering.</p>
+            <div class="approach-list">
+                <div class="approach-item scroll-reveal">
+                    <h3>Protocol_01</h3>
+                    <div class="approach-content">
+                        <h4>Performance-First Engineering</h4>
+                        <p>Every line of code is audited for speed. I leverage Shopify's CDN and optimized asset loading to ensure sub-2-second load times.</p>
+                    </div>
+                </div>
+                <div class="approach-item scroll-reveal">
+                    <h3>Protocol_02</h3>
+                    <div class="approach-content">
+                        <h4>Native Implementation Only</h4>
+                        <p>If it can be built with Liquid and Vanilla JS, it should be. Minimizing app-reliance ensures security and long-term theme stability.</p>
+                    </div>
+                </div>
+                <div class="approach-item scroll-reveal">
+                    <h3>Protocol_03</h3>
+                    <div class="approach-content">
+                        <h4>Future-Proof Scaling</h4>
+                        <p>I build using Shopify 2.0 standards, utilizing Metafields and Metaobjects to create data-driven stores that grow effortlessly.</p>
+                    </div>
+                </div>
+                <div class="approach-item scroll-reveal">
+                    <h3>Protocol_04</h3>
+                    <div class="approach-content">
+                        <h4>Touch-Optimized UX</h4>
+                        <p>With 70%+ of traffic on mobile, I design for the thumb. Every interaction is tactile, fast, and responsive.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-header scroll-reveal">
+                <h2>Technical Arsenal</h2>
+                <p>The Stack //</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category scroll-reveal">
+                    <h3>Shopify Ecosystem</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Liquid Engine</span>
+                        <span class="skill-tag">Shopify CLI</span>
+                        <span class="skill-tag">Metaobjects</span>
+                        <span class="skill-tag">API Integration</span>
+                    </div>
+                </div>
+                <div class="skill-category scroll-reveal">
+                    <h3>Frontend Logic</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Modern JS (ES6+)</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">AJAX / Fetch</span>
+                        <span class="skill-tag">Animation (GSAP)</span>
+                    </div>
+                </div>
+                <div class="skill-category scroll-reveal">
+                    <h3>Operations</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git Version Control</span>
+                        <span class="skill-tag">CI/CD Workflows</span>
+                        <span class="skill-tag">Performance Auditing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-header scroll-reveal">
+                <h2>Behind the Systems</h2>
+                <p>Personal Profile //</p>
+            </div>
+            <div class="about-grid scroll-reveal">
+                <div class="about-image">
+                    <img src="me.webp" alt="Anton Jay L. Hermo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNDAwIDUwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMxNTE1MTUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzQ0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFOVE9OX1BIQUlSQUJMPL3RleHQ+PC9zdmc+'">
+                </div>
+                <div class="about-text">
+                    <h3 class="about-name">Anton Jay L. Hermo</h3>
+                    <span class="about-role">Shopify Systems Developer // PH</span>
+                    
+                    <p>I specialize in building Shopify environments that are as durable as they are fast. Based in Albay, Philippines, I provide high-level technical support to international brands looking for strategic development partner.</p>
+
+                    <p>I don't just "fix" themes; I treat every store as an interconnected ecosystem. By focusing on clean architecture and native functionality, I ensure your business isn't held hostage by brittle apps or bloated code.</p>
+
+                    <p>My goal is to translate your complex business requirements into simple, intuitive user experiences—backed by code that speaks for itself.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="cta-section scroll-reveal">
+            <div class="container">
+                <h2>Ready to Optimize?</h2>
+                <p class="cta-content">If you're looking for a developer who values clean implementation and long-term scalability over quick fixes, let's talk.</p>
+                
+                <div class="cta-actions">
+                    <div class="cta-buttons">
+                        <a href="mailto:hello@antonhermo.com" class="btn-primary">START_PROJECT_v1.0</a>
+                    </div>
+                    
+                    <div class="cta-links">
+                        <a href="mailto:hermo.antonjay.personal@gmail.com" class="cta-link-item"><span>EMAIL_</span> hermo.antonjay.personal@gmail.com</a>
+                        <a href="https://www.linkedin.com/in/anton-jay-hermo/" target="_blank" class="cta-link-item"><span>LINKEDIN_</span> anton-jay-hermo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><a href="#" class="logo">NOTZ<span>.DEV</span></a></h3>
+                    <p>Building high-performance Shopify foundations that eliminate technical friction and empower sustainable growth. Quality over complexity, every time.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Site Navigation</h4>
+                    <ul>
+                        <li><a href="#work">Case Studies</a></li>
+                        <li><a href="#services">Capabilities</a></li>
+                        <li><a href="#approach">Strategy</a></li>
+                        <li><a href="#skills">Stack</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Direct Channels</h4>
+                    <ul>
+                        <li><a href="mailto:hermo.antonjay.personal@gmail.com">Direct Email</a></li>
+                        <li><a href="https://www.linkedin.com/in/anton-jay-hermo/" target="_blank">LinkedIn</a></li>
+                        <li><a href="https://github.com/BoyLado" target="_blank">GitHub</a></li>
+                        <li><a href="https://v2.onlinejobs.ph/jobseekers/info/1616842" target="_blank">OnlineJobs PH</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>&copy; 2026 // ESTABLISHED IN PH </div>
+                <div id="clock">LOCAL_TIME // --:-- --</div>
+            </div>
         </div>
-      </div>
-      <div class="project-img-box">
-        <div class="image-carousel" id="carousel-2">
-          <div class="carousel-slides">
-            <img src="https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=800" class="slide active" alt="View 1">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="slide" alt="View 2">
-          </div>
+    </footer>
 
-          <button class="carousel-nav prev" onclick="changeSlide(-1, 'carousel-2')">&#10094;</button>
-          <button class="carousel-nav next" onclick="changeSlide(1, 'carousel-2')">&#10095;</button>
-
-          <div class="carousel-dots">
-            <span class="dot active" onclick="setSlide(0, 'carousel-2')"></span>
-            <span class="dot" onclick="setSlide(1, 'carousel-2')"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="footer">
-    <h2 data-aos="fade-up">Let’s talk about your project.</h2>
-    <p style="color: var(--text-dim); margin-bottom: 60px; max-width: 500px; margin: 0 auto 60px;" data-aos="fade-up">I'm currently available for small tasks or long-term store support.</p>
-    <a href="mailto:hermo.antonjay.personal@gmail.com" class="mail-link" data-aos="zoom-in" data-aos-delay="200">LET'S CONNECT</a>
-    
-    <div class="sub-footer">
-      <div>&copy; 2026 // ALBAY, PH</div>
-      <div>STAY GROUNDED // BUILD BETTER</div>
-    </div>
-  </section>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    // Initialize AOS with custom settings
-    AOS.init({
-      duration: 1000,
-      once: true,
-      easing: 'ease-out-quart',
-      anchorPlacement: 'top-bottom',
-    });
-
-    // Subtle parallax for the glow background
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 20;
-      const y = (e.clientY / window.innerHeight) * 20;
-      document.getElementById('glow').style.transform = `translate(${x}px, ${y}px)`;
-    });
-
-    // Change slide by increment (next/prev)
-    function changeSlide(direction, carouselId) {
-        const container = document.getElementById(carouselId);
-        const slides = container.querySelectorAll('.slide');
-        let currentIndex = 0;
-
-        // Find current active index
-        slides.forEach((slide, index) => {
-            if (slide.classList.contains('active')) {
-                currentIndex = index;
-            }
+    <script>
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
+            else { nav.classList.remove('scrolled'); }
         });
 
-        let newIndex = currentIndex + direction;
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('reveal'); }
+            });
+        }, { threshold: 0.1 });
 
-        // Loop logic
-        if (newIndex >= slides.length) newIndex = 0;
-        if (newIndex < 0) newIndex = slides.length - 1;
+        document.querySelectorAll('.scroll-reveal, .skill-category').forEach(el => revealObserver.observe(el));
 
-        updateUI(newIndex, carouselId);
-    }
+        window.addEventListener('DOMContentLoaded', () => {
+            const heroReveals = [
+                document.querySelector('.hero-label'),
+                document.querySelector('.hero h1'),
+                document.querySelector('.hero-subtext'),
+                document.querySelector('.hero-actions')
+            ];
+            heroReveals.forEach((el, i) => {
+                setTimeout(() => { if(el) el.classList.add('faded'); }, 200 * (i + 1));
+            });
+        });
 
-    // Set slide to specific index (dots)
-    function setSlide(index, carouselId) {
-        updateUI(index, carouselId);
-    }
+        function updateClock() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Manila' };
+            const clockEl = document.getElementById('clock');
+            if(clockEl) clockEl.innerText = `LOCAL_TIME // ${now.toLocaleTimeString('en-US', options)} PHT`;
+        }
+        setInterval(updateClock, 1000); updateClock();
 
-    // Global UI Update function
-    function updateUI(targetIndex, carouselId) {
-        const container = document.getElementById(carouselId);
-        const slides = container.querySelectorAll('.slide');
-        const dots = container.querySelectorAll('.dot');
+        const trigger = document.getElementById('mobile-trigger');
+        const overlay = document.getElementById('mobile-overlay');
+        function toggleMenu() {
+            trigger.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : 'auto';
+        }
+        if(trigger) trigger.addEventListener('click', toggleMenu);
+        
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                trigger.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
 
-        // Remove active classes
-        slides.forEach(s => s.classList.remove('active'));
-        dots.forEach(d => d.classList.remove('active'));
+        const canvas = document.getElementById("bg-canvas");
+        const ctx = canvas.getContext("2d");
+        let width, height, particles = [];
+        const particleColor = "rgba(180, 180, 180, 0.5)";
+        const linkColor = "100, 100, 100";
+        const activeLinkColor = "45, 90, 39";
+        const particleCount = window.innerWidth < 768 ? 40 : 90;
+        const connectionDistance = 150;
+        const mouseDistance = 200;
+        let mouse = { x: null, y: null };
 
-        // Add active classes to target
-        slides[targetIndex].classList.add('active');
-        if(dots[targetIndex]) dots[targetIndex].classList.add('active');
-    }
+        window.addEventListener("mousemove", (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; });
 
-    // Optional: Auto-play function
-    setInterval(() => changeSlide(1, 'carousel-1'), 4000);
-    setInterval(() => changeSlide(1, 'carousel-2'), 4000);
-  </script>
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, index) => {
+                p.update(); p.draw();
+                for (let j = index; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x; const dy = p.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        const opacity = 1 - distance / connectionDistance;
+                        ctx.strokeStyle = `rgba(${linkColor}, ${opacity * 0.2})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+                if (mouse.x != null) {
+                    const dx = p.x - mouse.x; const dy = p.y - mouse.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouseDistance) {
+                        ctx.beginPath();
+                        const opacity = 1 - distance / mouseDistance;
+                        ctx.strokeStyle = `rgba(${activeLinkColor}, ${opacity * 0.6})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", () => { resize(); initParticles(); });
+        resize(); initParticles(); animate();
+    </script>
 </body>
 </html>
