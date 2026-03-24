@@ -219,6 +219,7 @@
 
         .project-link {
             margin-top: 16px;
+            margin-bottom: 10px;
             display: inline-flex;
             align-items: center;
             text-decoration: none;
@@ -236,6 +237,8 @@
         }
         .project-link:hover span::after { width: 100%; }
         .project-link::after { content: '↗'; margin-left: 6px; font-size: 0.9rem; }
+
+        .access-code {background-color: black; padding: 4px; border-radius: 4px;}
 
         /* --- CAPABILITIES --- */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 100px; }
